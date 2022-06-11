@@ -5,6 +5,8 @@ class CreateUserService < ApplicationService
   end
 
   def run
-    User.create!(name: @name, email: @email)
+    user = User.new(name: @name, email: @email)
+    user.save
+    user
   end
 end

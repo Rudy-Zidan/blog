@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
   def create
     user = ::CreateUserService.new(**build_create_params).run
-    presentable = ::UserPresenter.new(user: user).present
-    render json: presentable, status: :created
+    return present_errors(user.errors) if user.errors.any?
+    
+    presented = ::UserPresenter.new(user: user).present
+    render json: presented, status: :created
   end
 
   private
