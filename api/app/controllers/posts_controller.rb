@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :get_post, only: :show
+  before_action :get_post, only: %i(show update)
   before_action :get_author, only: :create
 
   def create
@@ -19,18 +19,38 @@ class PostsController < ApplicationController
     render json: presented, status: :ok
   end
 
+  def update
+    return present_not_found_resource(Post) unless @post
+
+    @post = UpdatePostService.new(post: @post, params: build_update_params).run
+    return present_errors(@post.errors) if @post.errors.any?
+
+    presented = ::PostPresenter.new(post: @post).present
+    render json: presented, status: :ok
+  end
+
   private
 
-  def create_params
-    params.permit(:title, :description, :content, :author_id)
+  def post_params
+    params.permit(:title, :description, :content, :author_id, :published)
   end
 
   def build_create_params
     {
       author: @author,
-      title: create_params[:title],
-      description: create_params[:description],
-      content: create_params[:content],
+      title: post_params[:title],
+      description: post_params[:description],
+      content: post_params[:content],
+    }
+  end
+
+  def build_update_params
+    {
+      author_id: post_params.dig(:author_id)&.to_i,
+      title: post_params[:title],
+      description: post_params[:description],
+      content: post_params[:content],
+      published: post_params[:published]
     }
   end
 

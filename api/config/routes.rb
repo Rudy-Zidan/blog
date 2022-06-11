@@ -9,5 +9,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts, only: %i(show create)
+  resources :posts, only: %i(show create update)
 end
