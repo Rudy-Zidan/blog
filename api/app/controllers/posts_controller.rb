@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   before_action :get_post, only: :show
-  before_action :get_author_by_id, only: :create
+  before_action :get_author, only: :create
 
   def create
-    return present_not_found_resource(User) unless @user
+    return present_not_found_resource(Author) unless @author
 
     post = CreatePostService.new(**build_create_params).run
     return present_errors(post.errors) if post.errors.any?
@@ -27,7 +27,7 @@ class PostsController < ApplicationController
 
   def build_create_params
     {
-      author: @user,
+      author: @author,
       title: create_params[:title],
       description: create_params[:description],
       content: create_params[:content],
@@ -36,9 +36,5 @@ class PostsController < ApplicationController
 
   def get_post
     @post = Post.find_by(id: params[:id])
-  end
-
-  def get_author_by_id
-    @user = User.find_by(id: create_params[:author_id])
   end
 end

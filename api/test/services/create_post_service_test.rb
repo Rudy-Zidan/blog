@@ -2,7 +2,7 @@ require "test_helper"
 
 class CreatePostServiceTest < ActiveSupport::TestCase
   def setup
-    @author = users(:one)
+    @author = Author.new(users(:one).attributes)
   end
 
   test "run" do

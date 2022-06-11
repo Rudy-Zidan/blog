@@ -43,7 +43,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
 
     res = JSON.parse(@response.body)
-    assert_equal("User", res["resource"])
+    assert_equal("Author", res["resource"])
     assert_equal("Not found", res["message"])
   end
 

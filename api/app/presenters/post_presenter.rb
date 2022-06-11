@@ -6,7 +6,7 @@ class PostPresenter < ApplicationPresenter
   def present
     {
       id: @post.id,
-      author_id: @post.user_id,
+      author_id: @post.author_id,
       title: @post.title,
       description: @post.description,
       content: @post.content,

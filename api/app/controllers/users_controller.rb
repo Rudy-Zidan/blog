@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :get_user_by_id, only: :posts
+  before_action :get_author, only: :posts
 
   def create
     user = ::CreateUserService.new(**build_create_params).run
@@ -10,9 +10,9 @@ class UsersController < ApplicationController
   end
 
   def posts
-    return present_not_found_resource(User) unless @user
+    return present_not_found_resource(Author) unless @author
 
-    posts = GetPostsByAuthorService.new(author: @user).run
+    posts = GetPostsByAuthorService.new(author: @author).run
     presented = ::PostsPresenter.new(posts: posts).present
     render json: presented, status: :ok
   end
