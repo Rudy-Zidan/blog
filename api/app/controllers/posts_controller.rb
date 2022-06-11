@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :get_post, only: %i(show update)
+  before_action :get_post, only: %i(show update destroy)
   before_action :get_author, only: :create
 
   def create
@@ -29,6 +29,16 @@ class PostsController < ApplicationController
     render json: presented, status: :ok
   end
 
+  def destroy
+    return present_not_found_resource(Post) unless @post
+
+    @post = DeletePostService.new(post: @post, params: build_delete_params).run
+    return present_errors(@post.errors) if @post.errors.any?
+
+    presented = PostPresenter.new(post: @post).present
+    render json: presented, status: :ok
+  end
+
   private
 
   def post_params
@@ -51,6 +61,12 @@ class PostsController < ApplicationController
       description: post_params[:description],
       content: post_params[:content],
       published: post_params[:published]
+    }
+  end
+
+  def build_delete_params
+    {
+      author_id: post_params.dig(:author_id)&.to_i,
     }
   end
 
