@@ -5,4 +5,8 @@ class ApplicationController < ActionController::API
     presented = ::ValidationErrorsPresenter.new(errors: errors).present
     render json: presented, status: :bad_request
   end
+
+  def get_user_by_id
+    @user = User.find_by(id: params[:id])
+  end
 end

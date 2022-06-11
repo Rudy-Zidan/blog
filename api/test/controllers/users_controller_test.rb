@@ -41,6 +41,27 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal("can't be blank", res["errors"][1]["message"])
   end
 
+  test "get posts by author" do
+    user = users(:one)
+    get posts_user_url(user.id)
+    assert_response :ok
+
+    res = JSON.parse(@response.body)
+    assert_equal(1, res.size)
+    assert_equal("Test", res[0]["title"])
+    assert_equal("This is a test description", res[0]["description"])
+    assert_equal("This is a test content", res[0]["content"])
+  end
+
+  test "get posts by not found author" do
+    get posts_user_url("not-found")
+    assert_response :not_found
+
+    res = JSON.parse(@response.body)
+    assert_equal("User", res["resource"])
+    assert_equal("Not found", res["message"])
+  end
+
   private
 
   def new_user_params

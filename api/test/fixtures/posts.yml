@@ -4,5 +4,9 @@
 # model remove the "{}" from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-one: {}
+one:
+  author: one
+  title: "Test"
+  description: "This is a test description"
+  content: "This is a test content"
 two: {}
