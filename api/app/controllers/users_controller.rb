@@ -10,10 +10,7 @@ class UsersController < ApplicationController
   end
 
   def posts
-    unless @user
-      presented = ::NotFoundPresenter.new(resource: User.name).present
-      return render json: presented, status: :not_found
-    end
+    return present_not_found_resource(User) unless @user
 
     posts = GetPostsByAuthorService.new(author: @user).run
     presented = ::PostsPresenter.new(posts: posts).present

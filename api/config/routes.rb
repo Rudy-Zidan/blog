@@ -8,4 +8,6 @@ Rails.application.routes.draw do
       get :posts
     end
   end
+
+  resources :posts, only: :show
 end
