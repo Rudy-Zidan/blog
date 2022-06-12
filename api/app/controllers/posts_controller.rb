@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :get_post, only: %i(show update destroy)
+  before_action :get_post, only: %i(show update destroy comments)
   before_action :get_author, only: :create
 
   def create
@@ -36,6 +36,14 @@ class PostsController < ApplicationController
     return present_errors(@post.errors) if @post.errors.any?
 
     presented = PostPresenter.new(post: @post).present
+    render json: presented, status: :ok
+  end
+
+  def comments
+    return present_not_found_resource(Post) unless @post
+
+    comments = GetCommentsByPostService.new(post: @post).run
+    presented = CommentsPresenter.new(comments: comments).present
     render json: presented, status: :ok
   end
 

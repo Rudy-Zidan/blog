@@ -146,6 +146,27 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal("Not found", res["message"])
   end
 
+  test "get comments by id" do
+    get comments_post_url(@post.id)
+    assert_response :ok
+
+    res = JSON.parse(@response.body)
+
+    assert_equal(Array, res.class)
+    assert_equal(1, res.size)
+    assert_equal("This is a test", res[0]["content"])
+    assert_equal(10, res[0]["reaction_summary"]["likes"])
+  end
+
+  test "get comments by not found id" do
+    get comments_post_url("not-found")
+    assert_response :not_found
+
+    res = JSON.parse(@response.body)
+    assert_equal("Post", res["resource"])
+    assert_equal("Not found", res["message"])
+  end
+
   private
 
   def create_post_payload

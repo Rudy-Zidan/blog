@@ -9,5 +9,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :posts, only: %i(show create update destroy)
+  resources :posts, only: %i(show create update destroy) do
+    member do
+      get :comments
+    end
+  end
 end
