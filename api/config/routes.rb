@@ -14,4 +14,6 @@ Rails.application.routes.draw do
       get :comments
     end
   end
+
+  resources :comments, only: %i(create update destroy)
 end
