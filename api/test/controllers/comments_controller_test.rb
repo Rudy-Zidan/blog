@@ -71,6 +71,38 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal("the original post or the user are not allowed to be changed", res["errors"][0]["message"])
   end
 
+  test "delete comment" do
+    delete comment_url(@comment.id), params: delete_comment_payload
+    assert_response :ok
+
+    res = JSON.parse(@response.body)
+    assert_equal("This is a test", res["content"])
+  end
+
+  test "delete comment with different user" do
+    params = delete_comment_payload
+    params[:user_id] += 10
+
+    delete comment_url(@comment.id), params: params
+    assert_response :bad_request
+
+    res = JSON.parse(@response.body)
+    assert_equal(%w(errors), res.keys)
+    assert_equal(1, res["errors"].size)
+    assert_equal(%w(field message), res["errors"][0].keys)
+    assert_equal("user", res["errors"][0]["field"])
+    assert_equal("not authorized for this action", res["errors"][0]["message"])
+  end
+
+  test "delete comment by not found id" do
+    delete comment_url("not-found"), params: delete_comment_payload
+    assert_response :not_found
+
+    res = JSON.parse(@response.body)
+    assert_equal("Comment", res["resource"])
+    assert_equal("Not found", res["message"])
+  end
+
   private
 
   def create_comment_payload
@@ -86,6 +118,12 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
       post_id: @comment.post_id,
       user_id: @comment.user_id,
       content: "This is a test update"
+    }
+  end
+
+  def delete_comment_payload
+    {
+      user_id: @comment.user_id
     }
   end
 end

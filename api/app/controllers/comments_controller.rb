@@ -1,5 +1,5 @@
 class CommentsController < ApplicationController
-  before_action :get_comment, only: :update
+  before_action :get_comment, only: %i(update destroy)
 
   def create
     comment = CreateCommentService.new(**build_params).run
@@ -19,6 +19,16 @@ class CommentsController < ApplicationController
     render json: presented, status: :ok
   end
 
+  def destroy
+    return present_not_found_resource(Comment) unless @comment
+
+    @post = DeleteCommentService.new(comment: @comment, params: build_delete_params).run
+    return present_errors(@comment.errors) if @comment.errors.any?
+
+    presented = ::CommentPresenter.new(comment: @comment).present
+    render json: presented, status: :ok
+  end
+
   private
 
   def comment_params
@@ -30,6 +40,12 @@ class CommentsController < ApplicationController
       post_id: comment_params.dig(:post_id)&.to_i,
       user_id: comment_params.dig(:user_id)&.to_i,
       content: comment_params[:content],
+    }
+  end
+
+  def build_delete_params
+    {
+      user_id: comment_params.dig(:user_id)&.to_i,
     }
   end
 
