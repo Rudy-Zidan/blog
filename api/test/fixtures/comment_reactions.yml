@@ -5,8 +5,6 @@
 # below each fixture, per the syntax in the comments below
 #
 one:
-  name: John
-  email: john@example.com
-two:
-  name: Mike
-  email: mike@example.com
+  comment: one
+  user: one
+  type: <%= CommentReactions::Like.name %>

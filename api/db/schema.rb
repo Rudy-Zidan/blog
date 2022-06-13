@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_12_191406) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_13_173405) do
+  create_table "comment_reactions", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.bigint "comment_id"
+    t.bigint "user_id"
+    t.string "type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["comment_id"], name: "index_comment_reactions_on_comment_id"
+    t.index ["type", "comment_id", "user_id"], name: "index_comment_reactions_on_type_and_comment_id_and_user_id", unique: true
+    t.index ["user_id"], name: "index_comment_reactions_on_user_id"
+  end
+
   create_table "comments", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.bigint "user_id"
     t.bigint "post_id"
@@ -43,6 +54,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_12_191406) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "comment_reactions", "comments", on_delete: :cascade
+  add_foreign_key "comment_reactions", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "posts", "users"
