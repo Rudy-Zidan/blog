@@ -29,10 +29,22 @@ class CommentsController < ApplicationController
     render json: presented, status: :ok
   end
 
+  def comment_reactions
+    @comment = CreateCommentReactionService.new(**build_reaction_params).run
+    return present_errors(@comment.errors) if @comment.errors.any?
+
+    presented = ::CommentReactionPresenter.new(comment_reaction: @comment).present
+    render json: presented, status: :created
+  end
+
   private
 
   def comment_params
     params.permit(:id, :post_id, :user_id, :content)
+  end
+
+  def comment_reaction_params
+    params.permit(:id, :user_id, :reaction)
   end
 
   def build_params
@@ -46,6 +58,14 @@ class CommentsController < ApplicationController
   def build_delete_params
     {
       user_id: comment_params.dig(:user_id)&.to_i,
+    }
+  end
+
+  def build_reaction_params
+    {
+      comment_id: comment_reaction_params[:id],
+      user_id: comment_reaction_params[:user_id],
+      reaction: comment_reaction_params[:reaction]
     }
   end
 

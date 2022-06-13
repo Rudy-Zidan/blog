@@ -15,5 +15,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :comments, only: %i(create update destroy)
+  resources :comments, only: %i(create update destroy) do
+    member do
+      post :comment_reactions
+    end
+  end
 end

@@ -5,7 +5,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     @comment = comments(:one)
   end
 
-  test "create post" do
+  test "create comment" do
     post comments_url, params: create_comment_payload
     assert_response :created
 
@@ -14,7 +14,7 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal("John", res["user"]["name"])
   end
 
-  test "create post with a non existing author" do
+  test "create comment with a non existing author" do
     post comments_url, params: {}
     assert_response :bad_request
 
@@ -103,6 +103,59 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
     assert_equal("Not found", res["message"])
   end
 
+  test "create comment_reaction" do
+    post comment_reactions_comment_url(@comment.id), params: create_comment_reaction_payload
+    assert_response :created
+
+    res = JSON.parse(@response.body)
+    assert_equal("like", res["reaction"])
+  end
+
+  test "create post with invalid reaction" do
+    params = create_comment_reaction_payload
+    params[:reaction] = ""
+
+    post comment_reactions_comment_url(@comment.id), params: params
+    assert_response :bad_request
+
+    res = JSON.parse(@response.body)
+    assert_equal(%w(errors), res.keys)
+    assert_equal(1, res["errors"].size)
+    assert_equal(%w(field message), res["errors"][0].keys)
+    assert_equal("reaction", res["errors"][0]["field"])
+    assert_equal("invalid reaction, should be (like or smile or thumbs_up)", res["errors"][0]["message"])
+  end
+
+  test "create post with invalid user" do
+    params = create_comment_reaction_payload
+    params[:user_id] = nil
+
+    post comment_reactions_comment_url(@comment.id), params: params
+    assert_response :bad_request
+
+    res = JSON.parse(@response.body)
+    assert_equal(%w(errors), res.keys)
+    assert_equal(1, res["errors"].size)
+    assert_equal(%w(field message), res["errors"][0].keys)
+    assert_equal("user", res["errors"][0]["field"])
+    assert_equal("must exist", res["errors"][0]["message"])
+  end
+
+  test "create post with duplicate reaction" do
+    params = create_comment_reaction_payload
+    params[:user_id] = users(:one).id
+
+    post comment_reactions_comment_url(@comment.id), params: params
+    assert_response :bad_request
+
+    res = JSON.parse(@response.body)
+    assert_equal(%w(errors), res.keys)
+    assert_equal(1, res["errors"].size)
+    assert_equal(%w(field message), res["errors"][0].keys)
+    assert_equal("type", res["errors"][0]["field"])
+    assert_equal("you already reacted in the same way before", res["errors"][0]["message"])
+  end
+
   private
 
   def create_comment_payload
@@ -124,6 +177,13 @@ class CommentsControllerTest < ActionDispatch::IntegrationTest
   def delete_comment_payload
     {
       user_id: @comment.user_id
+    }
+  end
+
+  def create_comment_reaction_payload
+    {
+      user_id: users(:two).id,
+      reaction: "like"
     }
   end
 end
