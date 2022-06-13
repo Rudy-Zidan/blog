@@ -17,7 +17,8 @@ Rails.application.routes.draw do
 
   resources :comments, only: %i(create update destroy) do
     member do
-      post :comment_reactions
+      post :reactions
+      delete 'reactions/:reaction_id', action: :delete_reactions
     end
   end
 end
