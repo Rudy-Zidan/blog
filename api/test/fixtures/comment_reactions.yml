@@ -7,4 +7,4 @@
 one:
   comment: one
   user: one
-  type: <%= CommentReactions::Like.name %>
+  type: <%= CommentReactions::LikeReaction.name %>

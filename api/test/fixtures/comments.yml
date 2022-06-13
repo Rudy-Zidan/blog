@@ -12,4 +12,10 @@ one:
   smile_reactions_count: 5
   thumbs_up_reactions_count: 0
 
-two: {}
+two:
+  post: one
+  user: one
+  content: "This is a test"
+  like_reactions_count: 0
+  smile_reactions_count: 0
+  thumbs_up_reactions_count: 0

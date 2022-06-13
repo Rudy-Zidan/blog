@@ -6,7 +6,7 @@ class GetCommentsByPostServiceTest < ActiveSupport::TestCase
     comments = GetCommentsByPostService.new(post: post).run
 
     assert_equal(ActiveRecord::AssociationRelation.name, comments.class.name)
-    assert_equal(1, comments.size)
+    assert_equal(2, comments.size)
   end
 
   test "run with nil post" do

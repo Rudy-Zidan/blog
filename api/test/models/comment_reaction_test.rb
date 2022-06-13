@@ -14,7 +14,7 @@ class CommentReactionTest < ActiveSupport::TestCase
     comment_reaction = CommentReaction.new
     comment_reaction.comment = comments(:one)
     comment_reaction.user = users(:one)
-    comment_reaction.type = CommentReactions::Like.name
+    comment_reaction.type = CommentReactions::LikeReaction.name
 
     assert_equal(false, comment_reaction.valid?)
     assert_equal("you already reacted in the same way before", comment_reaction.errors[:type][0])
