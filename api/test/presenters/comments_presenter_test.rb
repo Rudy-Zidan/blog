@@ -7,6 +7,6 @@ class CommentsPresenterTest < ActiveSupport::TestCase
     comments_arr = presenter.present
 
     assert_equal(1, comments_arr.size)
-    assert_equal(%i(id content user reaction_summary), comments_arr[0].keys)
+    assert_equal(%i(id content user reaction_summary reactions), comments_arr[0].keys)
   end
 end

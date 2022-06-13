@@ -15,7 +15,10 @@ class CommentPresenter < ApplicationPresenter
         likes: @comment.like_reactions_count,
         smiles: @comment.smile_reactions_count,
         thumbs_up: @comment.thumbs_up_reactions_count,
-      }
+      },
+      reactions: @comment.comment_reactions.map do |comment_reaction|
+        CommentReactionPresenter.new(comment_reaction: comment_reaction).present
+      end
     }
   end
 end
