@@ -3,7 +3,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :users, only: :create do
+  resources :users, only: %i(index create) do
     member do
       get :posts
     end

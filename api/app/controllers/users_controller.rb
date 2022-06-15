@@ -1,6 +1,13 @@
 class UsersController < ApplicationController
   before_action :get_author, only: :posts
 
+  def index
+    users = GetAllUsersService.new.run
+    
+    presented = ::UsersPresenter.new(users: users).present
+    render json: presented, status: :ok
+  end
+
   def create
     user = ::CreateUserService.new(**build_create_params).run
     return present_errors(user.errors) if user.errors.any?
