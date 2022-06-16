@@ -6,6 +6,6 @@ class GetPostsByAuthorService < ApplicationService
   def run
     return Post.none unless @author
 
-    @author.posts
+    @author.posts.includes(:author)
   end
 end

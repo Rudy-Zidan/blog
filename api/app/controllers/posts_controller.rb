@@ -2,6 +2,12 @@ class PostsController < ApplicationController
   before_action :get_post, only: %i(show update destroy comments)
   before_action :get_author, only: :create
 
+  def index
+    posts = GetAllPostsService.new.run
+    presented = ::PostsPresenter.new(posts: posts).present
+    render json: presented, status: :ok
+  end
+
   def create
     return present_not_found_resource(Author) unless @author
 

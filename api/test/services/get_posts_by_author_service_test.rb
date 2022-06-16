@@ -5,7 +5,7 @@ class GetPostsByAuthorServiceTest < ActiveSupport::TestCase
     author = Author.new(users(:one).attributes)
     posts = GetPostsByAuthorService.new(author: author).run
 
-    assert_equal(ActiveRecord::Associations::CollectionProxy.name, posts.class.name)
+    assert_equal(ActiveRecord::AssociationRelation.name, posts.class.name)
     assert_equal(1, posts.size)
   end
 

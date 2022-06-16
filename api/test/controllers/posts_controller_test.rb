@@ -6,6 +6,15 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     @post = posts(:one)
   end
 
+  test "get all posts" do
+    get posts_url
+    assert_response :ok
+
+    res = JSON.parse(@response.body)
+    assert_equal(Array, res.class)
+    assert_equal(1, res.size)
+  end
+
   test "get post by id" do
     get post_url(@post.id)
     assert_response :ok
