@@ -7,7 +7,7 @@
       {{post.content}}
     </h4>
     <v-divider class="mb-10"></v-divider>
-    <CommentTimeline :comments="comments"/>
+    <CommentTimeline/>
   </v-container>
 </template>
 
@@ -35,7 +35,6 @@ export default {
   },
   created() {
     this.$store.dispatch('getPostById', this.$route.params.id)
-    this.$store.dispatch('getPostCommentsById', this.$route.params.id)
   },
   data: () => ({
     post: {

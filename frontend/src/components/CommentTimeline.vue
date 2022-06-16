@@ -1,23 +1,14 @@
 <template>
   <v-container>
     <v-text-field
-      v-model="input"
+      v-model="content"
       hide-details
-      label="Leave a comment..."
+      label="Leave a comment and press enter to post it..."
       density="compact"
-      @keydown.enter="comment"
+      @keydown.enter="postComment"
       class="font-weight-light"
       v-if="getCurrentUser !== null"
     >
-      <template v-slot:append>
-        <v-btn
-          class="mx-0 font-weight-light"
-          color="primary"
-          @click="comment"
-        >
-          Post
-        </v-btn>
-      </template>
     </v-text-field>
     <p v-if="comments.length === 0">No Comments yet...</p>
   <div
@@ -69,11 +60,32 @@ import { mapGetters } from "vuex"
 export default {
   computed: {
     ...mapGetters([
-      'getCurrentUser'
+      'getCurrentUser',
+      'getComments'
     ]),
   },
-  props: {
-    comments: Array,
+  watch: {
+    getComments(value) {
+      this.comments = value
+    }
+  },
+  data: () => ({
+    content: null,
+    postId: null,
+    comments: []
+  }),
+  created() {
+    this.postId = this.$route.params.id
+    this.loadComments()
+  },
+  methods: {
+    postComment() {
+      this.$store.dispatch("createComment", {user_id: this.getCurrentUser.id, post_id: this.postId, content: this.content})
+      this.content = null
+    },
+    loadComments() {
+      this.$store.dispatch('getPostCommentsById', this.postId)
+    }
   }
 }
 </script>
