@@ -19,6 +19,7 @@
         </v-btn>
       </template>
     </v-text-field>
+    <p v-if="comments.length === 0">No Comments yet...</p>
   <div
     v-for="comment in comments"
     :key="comment.id"

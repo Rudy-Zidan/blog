@@ -1,13 +1,13 @@
 <template>
   <v-container>
     <h2 class="text-center mb-10">
-      {{getCurrentPost.title}}
+      {{post.title}}
     </h2>
     <h4 class="mb-10 font-weight-light">
-      {{getCurrentPost.content}}
+      {{post.content}}
     </h4>
     <v-divider class="mb-10"></v-divider>
-    <CommentTimeline :comments="getComments"/>
+    <CommentTimeline :comments="comments"/>
   </v-container>
 </template>
 
@@ -26,8 +26,11 @@ export default {
     CommentTimeline,
   },
   watch: {
-    getCurrentPost() {
-      this.post = this.getCurrentPost
+    getCurrentPost(value) {
+      this.post = value
+    },
+    getComments(value) {
+      this.comments = value
     }
   },
   created() {
@@ -35,8 +38,24 @@ export default {
     this.$store.dispatch('getPostCommentsById', this.$route.params.id)
   },
   data: () => ({
-    post: null,
-    comments: []
+    post: {
+      title: 'loading...',
+      content: 'loading...'
+    },
+    comments: [
+      {
+        content: 'loading...',
+        user: {
+          name: "loading..."
+        },
+        reaction_summary: {
+          likes: 0,
+          smile: 0,
+          thumbs_u: 0
+        },
+        reactions: []
+      }
+    ]
   })
 }
 </script>

@@ -18,5 +18,19 @@ export default {
       .then(res => {
         commit("setComments", res.data)
       })
+  },
+  createPost: ({commit}, post) => {
+    commit('setPostFormHasNoErrors')
+    PostService.create(post)
+      .then(res => {
+        if(res.status === 201) {
+          commit("appendPost", res.data)
+        }
+      }).catch(err => {
+        if(err.response.status === 400) {
+          commit('setPostFormHasErrors')
+          commit('setPostFormErrors', err.response.data.errors)
+        }
+      })
   }
 }

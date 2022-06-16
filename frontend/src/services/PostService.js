@@ -9,5 +9,8 @@ export default {
   },
   comments: (id) => {
     return Api().get(`/posts/${id}/comments`)
+  },
+  create: (payload) => {
+    return Api().post("/posts", payload)
   }
 }

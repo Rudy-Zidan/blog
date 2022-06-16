@@ -1,4 +1,8 @@
 export default {
   posts: [],
-  currentPost: null
+  currentPost: null,
+  postForm: {
+    hasErrors: false,
+    errors: []
+  }
 }
