@@ -7,6 +7,7 @@
     density="compact"
     @keydown.enter="comment"
     class="font-weight-light"
+    v-if="getCurrentUser !== null"
   >
     <template v-slot:append>
       <v-btn
@@ -61,7 +62,14 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
+  computed: {
+    ...mapGetters([
+      'getCurrentUser'
+    ]),
+  },
   props: {
     comments: Array,
   },

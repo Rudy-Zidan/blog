@@ -8,17 +8,17 @@
         lg="6"
       >
         <v-select
-          v-model="selectedUser"
-          :items="users"
-          label="Pick a user"
+          v-model="selectedUserEmail"
+          :items="getUserEmails"
+          label="Pick an Email"
         >
         <template v-slot:append>
           <v-btn
           color="primary"
           text
-          @click="use"
+          @click="pick"
         >
-          USE
+          Pick
         </v-btn>
         </template>
         </v-select>
@@ -39,7 +39,7 @@
               ref="name"
               v-model="name"
               :rules="[() => !!name || 'This field is required']"
-              :error-messages="errorMessages"
+              :error-messages="nameErrorMessages"
               label="Full Name"
               placeholder="John Doe"
               required
@@ -47,8 +47,8 @@
             <v-text-field
               ref="email"
               v-model="email"
-              :rules="[() => !!email || 'This field is required', emailCheck]"
-              :error-messages="errorMessages"
+              :rules="[() => !!email || 'This field is required']"
+              :error-messages="emailErrorMessages"
               label="Email"
               placeholder="example@gmail.com"
               required
@@ -59,7 +59,7 @@
             <v-spacer></v-spacer>
             <v-slide-x-reverse-transition>
               <v-tooltip
-                v-if="formHasErrors"
+                v-if="this.userFormHasErrors"
                 left
               >
                 <template v-slot:activator="{ on, attrs }">
@@ -97,7 +97,9 @@ export default {
   name: "AccountPage",
   computed: {
     ...mapGetters([
-      'getUsers',
+      'getUserEmails',
+      'userFormHasErrors',
+      'getFormErrorByField'
     ]),
     form () {
       return {
@@ -108,32 +110,40 @@ export default {
   },
   watch: {
     name () {
-      this.errorMessages = ''
+      this.errorMessages = []
     },
+    email () {
+      this.emailErrorMessages = []
+    },
+    userFormHasErrors () {
+      let emailErrorMsg = this.getFormErrorByField("email")
+      if(emailErrorMsg !== null) {
+        this.emailErrorMessages = [emailErrorMsg]
+      }
+
+      let nameErrorMsg = this.getFormErrorByField("name")
+      if(nameErrorMsg !== null) {
+        this.nameErrorMessages = [nameErrorMsg]
+      }
+    }
   },
   created() {
-    this.getUsers.forEach((user) => {
-      this.users.push(user.name)
-    })
+    this.$store.dispatch("listUsers")
   },
   data: () => ({
     name: null,
     email: null,
     formHasErrors: false,
-    errorMessages: '',
+    nameErrorMessages: [],
+    emailErrorMessages: [],
+
     users: [],
-    selectedUser: null
+    selectedUserEmail: null
   }),
   methods: {
-    emailCheck() {
-      this.errorMessages = this.email && !this.name
-          ? `Hey! I'm required`
-          : ''
-      
-      return true
-    },
     resetForm () {
-      this.errorMessages = []
+      this.nameErrorMessages = []
+      this.emailErrorMessages = []
       this.formHasErrors = false
 
       Object.keys(this.form).forEach(f => {
@@ -148,9 +158,22 @@ export default {
 
         this.$refs[f].validate(true)
       })
+
+      if(this.formHasErrors !== true) {
+        this.$store.dispatch(
+          "createUser",
+          {
+            name: this.form.name,
+            email: this.form.email
+          }
+        )
+      }
     },
-    use () {
-      
+    pick () {
+      this.$store.dispatch("selectUser", this.selectedUserEmail)
+        .then(() => {
+          this.$router.push("/")
+        })
     }
   }
 }

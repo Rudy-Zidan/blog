@@ -9,13 +9,11 @@
         color="primary"
         @click="visitAccount"
       >
-        Pick / Create User
+        {{actionName()}}
       </v-btn>
     </v-app-bar>
     <v-main>
       <v-container fluid>
-
-        <!-- If using vue-router -->
         <router-view></router-view>
       </v-container>
     </v-main>
@@ -23,15 +21,28 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
 
 export default {
   name: 'App',
-  data: () => ({
-    //
-  }),
+  computed: {
+    ...mapGetters([
+      'getCurrentUser'
+    ]),
+  },
   methods: {
     visitAccount() {
       this.$router.push('/accounts')
+    },
+    visitHome() {
+      this.$router.push('/')
+    },
+    actionName() {
+      if(this.getCurrentUser !== null) {
+        return this.getCurrentUser.name
+      }
+
+      return 'Pick / Create User'
     }
   }
 }

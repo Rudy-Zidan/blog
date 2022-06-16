@@ -1,9 +1,9 @@
 export default {
-  users: [
-    {
-      id: 1,
-      name: "Jack Black",
-      email: "jack.black@gmai.com"
-    }
-  ]
+  users: [],
+  userEmails: [],
+  currentUser: null,
+  userForm: {
+    hasErrors: false,
+    errors: []
+  }
 }

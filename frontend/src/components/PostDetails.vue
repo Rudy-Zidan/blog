@@ -29,7 +29,6 @@ export default {
   },
   created() {
     this.post = this.getPostByID(this.$route.params.id)
-    console.log(this.$route.params.id)
     this.comments = this.getCommentsByPostID(this.$route.params.id)
   },
   data: () => ({
