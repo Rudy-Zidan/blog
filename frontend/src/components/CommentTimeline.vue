@@ -1,28 +1,29 @@
 <template>
   <v-container>
-  <v-text-field
-    v-model="input"
-    hide-details
-    label="Leave a comment..."
-    density="compact"
-    @keydown.enter="comment"
-    class="font-weight-light"
-    v-if="getCurrentUser !== null"
-  >
-    <template v-slot:append>
-      <v-btn
-        class="mx-0 font-weight-light"
-        color="primary"
-        @click="comment"
-      >
-        Post
-      </v-btn>
-    </template>
-  </v-text-field>
+    <v-text-field
+      v-model="input"
+      hide-details
+      label="Leave a comment..."
+      density="compact"
+      @keydown.enter="comment"
+      class="font-weight-light"
+      v-if="getCurrentUser !== null"
+    >
+      <template v-slot:append>
+        <v-btn
+          class="mx-0 font-weight-light"
+          color="primary"
+          @click="comment"
+        >
+          Post
+        </v-btn>
+      </template>
+    </v-text-field>
   <div
     v-for="comment in comments"
     :key="comment.id"
     class="mt-5"
+    
   >
   <v-card class="pb-2">
     <v-card-title>
@@ -72,6 +73,6 @@ export default {
   },
   props: {
     comments: Array,
-  },
+  }
 }
 </script>

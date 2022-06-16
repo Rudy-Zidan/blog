@@ -1,15 +1,13 @@
 <template>
   <v-container>
     <h2 class="text-center mb-10">
-      {{post.title}}
+      {{getCurrentPost.title}}
     </h2>
     <h4 class="mb-10 font-weight-light">
-      {{post.content}}
+      {{getCurrentPost.content}}
     </h4>
     <v-divider class="mb-10"></v-divider>
-    <!-- <v-row justify="center"> -->
-      <CommentTimeline :comments="this.comments"/>
-    <!-- </v-row> -->
+    <CommentTimeline :comments="getComments"/>
   </v-container>
 </template>
 
@@ -20,19 +18,24 @@ import { mapGetters } from "vuex"
 export default {
   computed: {
     ...mapGetters([
-      'getCommentsByPostID',
-      'getPostByID',
+      'getComments',
+      'getCurrentPost',
     ])
   },
   components: {
     CommentTimeline,
   },
+  watch: {
+    getCurrentPost() {
+      this.post = this.getCurrentPost
+    }
+  },
   created() {
-    this.post = this.getPostByID(this.$route.params.id)
-    this.comments = this.getCommentsByPostID(this.$route.params.id)
+    this.$store.dispatch('getPostById', this.$route.params.id)
+    this.$store.dispatch('getPostCommentsById', this.$route.params.id)
   },
   data: () => ({
-    post: {},
+    post: null,
     comments: []
   })
 }
