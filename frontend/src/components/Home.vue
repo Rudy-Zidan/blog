@@ -67,6 +67,9 @@ export default {
   components: {
     PostCard,
   },
+  created() {
+    this.$store.dispatch('listPosts')
+  },
   data: () => ({}),
 }
 </script>

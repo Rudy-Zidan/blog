@@ -3,8 +3,13 @@
     <v-row justify="space-around">
       <v-card width="600">
         <v-card-title>
-            {{post.title}}
+          {{post.title}}
         </v-card-title>
+        <v-card-subtitle>
+          <p>Written by</p>
+          &nbsp;
+          <p class="text-amber font-weight-bold">{{post.author.name}}</p>
+        </v-card-subtitle>
         <v-card-text>
           <div class="ml-1 mb-2">
             {{post.description}}
