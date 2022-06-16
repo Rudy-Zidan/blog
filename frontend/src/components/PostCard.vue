@@ -17,6 +17,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
+          <v-btn
+            variant="outlined"
+            color="secondary"
+            @click="editPost(post.id)"
+            v-if="getCurrentUser !== null && getCurrentUser.id === post.author.id"
+          >
+            Edit
+          </v-btn>
           <v-btn variant="outlined" color="primary" @click="showPost(post.id)">Read</v-btn>
         </v-card-actions>
       </v-card>
@@ -25,7 +33,15 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex"
+
 export default {
+  computed: {
+    ...mapGetters([
+      'getComments',
+      'getCurrentUser',
+    ])
+  },
   props: {
     post: Object,
   },
@@ -34,6 +50,9 @@ export default {
   methods: {
     showPost(postId) {
       this.$router.push(`/posts/${postId}`)
+    },
+    editPost(postId) {
+      this.$router.push(`/edit_post/${postId}`)
     }
   }
 }

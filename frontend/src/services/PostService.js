@@ -12,5 +12,8 @@ export default {
   },
   create: (payload) => {
     return Api().post("/posts", payload)
+  },
+  update: (id, payload) => {
+    return Api().put(`/posts/${id}`, payload)
   }
 }

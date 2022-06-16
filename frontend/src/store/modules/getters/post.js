@@ -17,5 +17,6 @@ export default {
     })
 
     return errorMessage
-  }
+  },
+  isPostUpdating: state => state.postUpdating,
 }

@@ -16,5 +16,11 @@ export default {
   },
   setPostFormErrors(state, errors) {
     state.postForm.errors = errors
-  }
+  },
+  startPostUpdating(state) {
+    state.postUpdating = true
+  },
+  stopPostUpdating(state) {
+    state.postUpdating = false
+  },
 }

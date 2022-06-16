@@ -4,5 +4,6 @@ export default {
   postForm: {
     hasErrors: false,
     errors: []
-  }
+  },
+  postUpdating: false
 }
