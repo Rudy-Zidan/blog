@@ -9,4 +9,12 @@ export default {
         }
       })
   },
+  updateComment: ({commit}, payload) => {
+    CommentService.update(payload.id, payload.comment)
+      .then(res => {
+        if(res.status === 200) {
+          commit('updateComment', res.data)
+        }
+      })
+  },
 }

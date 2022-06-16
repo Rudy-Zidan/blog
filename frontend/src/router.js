@@ -4,6 +4,7 @@ import Home from '@/components/Home'
 import PostDetails from '@/components/PostDetails'
 import EditPost from '@/components/EditPost'
 import Account from '@/components/Account'
+import NotFound from '@/components/NotFound'
 
 const routes = [
   { 
@@ -25,6 +26,11 @@ const routes = [
     path: '/accounts',
     name: 'Accounts',
     component: Account
+  },
+  {
+    path: '/404',
+    name: 'Not Found',
+    component: NotFound
   }
 ]
 

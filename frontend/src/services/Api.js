@@ -1,4 +1,5 @@
-import axios from "axios";
+import axios from "axios"
+import router from '@/router'
 
 export default () => {
   let instance = axios.create({
@@ -15,8 +16,9 @@ export default () => {
       return response;
     },
     error => {
-      if (error.response && error.response.data.status > 400) {
-        console.log(error.response)
+      if (error.response && error.response.status > 400) {
+        
+        router.push("/404")
       }
 
       return Promise.reject(error);
