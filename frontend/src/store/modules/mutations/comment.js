@@ -39,5 +39,9 @@ export default {
 
     state.comments[index].reactions.splice(reactionIndex, 1)
     state.comments[index].reaction_summary[key] -= 1
+  },
+  removeComment(state, deletedComment) {
+    let index = state.comments.findIndex(comment => comment.id == deletedComment.id)
+    state.comments.splice(index, 1)
   }
 }

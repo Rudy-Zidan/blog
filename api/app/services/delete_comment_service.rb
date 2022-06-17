@@ -11,6 +11,11 @@ class DeleteCommentService < ApplicationService
     end
 
     @comment.destroy
+    if @comment.errors.empty?
+      presented = CommentPresenter.new(comment: @comment).present
+      broadcast("post_comment_delete_#{@comment.post_id}", { comment: presented })
+    end
+
     @comment
   end
 end

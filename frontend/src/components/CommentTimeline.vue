@@ -32,6 +32,14 @@
       <v-card-actions>
         <v-btn 
           variant="text" 
+          color="red"
+          @click="removeComment(comment)" 
+          v-if="getCurrentUser && getCurrentUser.id === comment.user.id"
+        >
+          Remove
+        </v-btn>
+        <v-btn 
+          variant="text" 
           color="amber" 
           @click="editMode(index)" 
           v-if="getCurrentUser && getCurrentUser.id === comment.user.id && !editableComments[index]"
@@ -40,7 +48,7 @@
         </v-btn>
         <v-btn 
           variant="text" 
-          color="red" 
+          color="grey" 
           @click="undo(index)" 
           v-if="getCurrentUser && getCurrentUser.id === comment.user.id && editableComments[index]"
         >
@@ -145,6 +153,12 @@ export default {
       received(data) { this.$store.dispatch('replaceComment', data.comment) },
       disconnected() {},
     },
+    PostCommentDeleteChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('deleteComment', data.comment) },
+      disconnected() {},
+    },
     ReactionChannel: {
       connected() {},
       rejected() {},
@@ -175,6 +189,11 @@ export default {
 
     this.$cable.subscribe({
       channel: "PostCommentUpdateChannel",
+      post_id: this.postId
+    });
+
+    this.$cable.subscribe({
+      channel: "PostCommentDeleteChannel",
       post_id: this.postId
     });
 
@@ -240,6 +259,13 @@ export default {
         user_id: this.getCurrentUser.id,
         post_id: this.postId,
       }
+    },
+    removeComment(comment) {
+      this.$store.dispatch('removeComment', {
+        user_id: this.getCurrentUser.id,
+        comment_id: comment.id,
+        post_id: this.postId
+      })
     }
   }
 }

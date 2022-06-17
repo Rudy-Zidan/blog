@@ -33,16 +33,27 @@ export default {
         }
       })
   },
-  injectCommentAtTop({commit}, comment) {
+  injectCommentAtTop: ({commit}, comment) => {
     commit('injectCommentAtTop', comment)
   },
-  replaceComment({commit}, comment) {
+  replaceComment: ({commit}, comment) => {
     commit('replaceComment', comment)
   },
-  react({commit}, reaction) {
+  react: ({commit}, reaction) => {
     commit('injectToCommentReactions', reaction)
   },
-  removeReaction({commit}, reaction) {
+  removeReaction: ({commit}, reaction) => {
     commit('removeCommentReaction', reaction)
+  },
+  removeComment: ({dispatch}, payload) => {
+    CommentService.delete(payload.comment_id, payload.user_id)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch('getPostCommentsById', payload.post_id)
+        }
+      })
+  },
+  deleteComment: ({commit}, comment) => {
+    commit('removeComment', comment)
   }
 }
