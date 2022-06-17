@@ -28,9 +28,23 @@ export default {
   watch: {
     getCurrentPost(value) {
       this.post = value
+      if(this.post !== null) {
+        this.$cable.subscribe({
+          channel: "PostDetailsChannel",
+          id: this.post.id
+        });
+      }
     },
     getComments(value) {
       this.comments = value
+    }
+  },
+  channels: {
+    PostDetailsChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('replaceCurrentPost', data.post) },
+      disconnected() {},
     }
   },
   created() {

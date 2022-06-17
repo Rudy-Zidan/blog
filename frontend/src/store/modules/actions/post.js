@@ -55,5 +55,8 @@ export default {
   },
   replacePost: ({commit}, post) => {
     commit('replacePost', post)
+  },
+  replaceCurrentPost: ({commit}, post) => {
+    commit('replaceCurrentPost', post)
   }
 }

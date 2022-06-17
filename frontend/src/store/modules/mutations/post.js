@@ -29,5 +29,8 @@ export default {
   replacePost(state, updatedPost) {
     let index = state.posts.findIndex(post => post.id == updatedPost.id)
     state.posts[index] = updatedPost
+  },
+  replaceCurrentPost(state, updatedPost) {
+    state.currentPost = updatedPost
   }
 }
