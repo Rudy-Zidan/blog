@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-row justify="space-around" class="mb-5">
+      <h1>Feeds</h1>
+    </v-row>
     <PostForm />
     <div v-for="post in this.getPosts" :key="post.id">
       <PostCard :post="post" class="mb-10"/>

@@ -46,6 +46,15 @@
         ></v-text-field>
       </v-card-text>
       <v-card-actions>
+        <v-btn
+          class="mx-0 font-weight-light"
+          color="grey"
+          variant="outlined"
+          @click="back"
+          v-if="postId !== null"
+        >
+          Back
+        </v-btn> 
         <v-spacer></v-spacer>
         <v-btn
           class="mx-0 font-weight-light"
@@ -170,6 +179,9 @@ export default {
 
         this.$refs[f].validate(true)
       })
+    },
+    back() {
+      this.$router.back()
     }
   }
 }

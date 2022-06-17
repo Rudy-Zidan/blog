@@ -1,5 +1,8 @@
 <template>
   <v-container>
+    <v-row justify="space-around" class="mb-2">
+      <h1>Feeds</h1>
+    </v-row>
     <v-container class="text-center" v-if="this.getPosts.length === 0">
       <h1>No posts yet..</h1>
     </v-container>

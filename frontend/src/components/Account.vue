@@ -81,7 +81,7 @@
               text
               @click="submit"
             >
-              Submit
+              Create
             </v-btn>
           </v-card-actions>
         </v-card>

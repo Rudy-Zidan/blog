@@ -7,6 +7,12 @@
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
+        @click="visitHome"
+      >
+        Feeds
+      </v-btn>
+      <v-btn
+        color="primary"
         @click="visitMyPosts"
         v-if="getCurrentUser"
       >
@@ -53,7 +59,7 @@ export default {
     },
     visitMyPosts() {
       this.$router.push(`/users/${this.getCurrentUser.id}/posts`)
-    }
+    },
   }
 }
 </script>
