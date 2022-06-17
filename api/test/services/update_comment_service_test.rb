@@ -1,6 +1,8 @@
 require "test_helper"
 
 class UpdateCommentServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   def setup
     @comment = comments(:one)
   end
@@ -11,6 +13,7 @@ class UpdateCommentServiceTest < ActiveSupport::TestCase
     assert_equal(Comment.name, comment.class.name)
     assert_equal(true, comment.errors.empty?)
     assert_equal("This is a test content", comment.content)
+    assert_broadcasts("post_comment_update#{@comment.post_id}", 1)
   end
 
   test "run with blank params" do
@@ -20,6 +23,7 @@ class UpdateCommentServiceTest < ActiveSupport::TestCase
     assert_equal(true, comment.errors.any?)
 
     assert_equal("can't be blank", comment.errors[:content].first)
+    assert_broadcasts("post_comment_update#{@comment.post_id}", 0)
   end
 
   test "run with different user" do
@@ -31,6 +35,7 @@ class UpdateCommentServiceTest < ActiveSupport::TestCase
     assert_equal(true, comment.errors.any?)
 
     assert_equal("the original post or the user are not allowed to be changed", comment.errors[:comment].first)
+    assert_broadcasts("post_comment_update#{@comment.post_id}", 0)
   end
 
   private

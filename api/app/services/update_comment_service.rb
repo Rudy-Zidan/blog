@@ -11,6 +11,11 @@ class UpdateCommentService < ApplicationService
     end
 
     @comment.update(@params)
+    if @comment.errors.empty?
+      presented = CommentPresenter.new(comment: @comment).present
+      broadcast("post_comment_update#{@comment.post_id}", { comment: presented })
+    end
+
     @comment
   end
 end
