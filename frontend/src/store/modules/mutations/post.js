@@ -36,5 +36,11 @@ export default {
   removePostFromPosts(state, deletedPost) {
     let index = state.posts.findIndex(post => post.id == deletedPost.id)
     state.posts.splice(index, 1)
+  },
+  clearPostForm(state) {
+    state.clearPostForm = true
+  },
+  resetPostForm(state) {
+    state.clearPostForm = false
   }
 }

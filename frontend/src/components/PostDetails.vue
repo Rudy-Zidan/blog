@@ -32,7 +32,7 @@ export default {
         this.$cable.subscribe({
           channel: "PostDetailsChannel",
           id: this.post.id
-        });
+        })
       }
     },
     getComments(value) {

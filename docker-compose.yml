@@ -36,3 +36,4 @@ services:
       - api
     environment:
       VUE_APP_BASE_API_URL: http://localhost:3000
+      VUE_APP_BASE_CABLE_URL: http://localhost:3000/cable

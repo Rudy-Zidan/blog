@@ -16,7 +16,7 @@ class CommentsController < ApplicationController
     @post = UpdateCommentService.new(comment: @comment, params: build_params).run
     return present_errors(@comment.errors) if @comment.errors.any?
 
-    presented = ::CommentPresenter.new(comment: @comment).present
+    presented = CommentPresenter.new(comment: @comment).present
     render json: presented, status: :ok
   end
 
@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
     @post = DeleteCommentService.new(comment: @comment, params: build_delete_params).run
     return present_errors(@comment.errors) if @comment.errors.any?
 
-    presented = ::CommentPresenter.new(comment: @comment).present
+    presented = CommentPresenter.new(comment: @comment).present
     render json: presented, status: :ok
   end
 
@@ -34,7 +34,7 @@ class CommentsController < ApplicationController
     @comment = CreateCommentReactionService.new(**build_reaction_params).run
     return present_errors(@comment.errors) if @comment.errors.any?
 
-    presented = ::CommentReactionPresenter.new(comment_reaction: @comment).present
+    presented = CommentReactionPresenter.new(comment_reaction: @comment).present
     render json: presented, status: :created
   end
 
@@ -44,7 +44,7 @@ class CommentsController < ApplicationController
     @comment_reaction = DeleteCommentReactionService.new(comment_reaction: @comment_reaction, params: build_delete_reaction_params).run
     return present_errors(@comment_reaction.errors) if @comment_reaction.errors.any?
 
-    presented = ::CommentReactionPresenter.new(comment_reaction: @comment_reaction).present
+    presented = CommentReactionPresenter.new(comment_reaction: @comment_reaction).present
     render json: presented, status: :ok
   end
 

@@ -4,7 +4,7 @@ class PostsController < ApplicationController
 
   def index
     posts = GetAllPostsService.new.run
-    presented = ::PostsPresenter.new(posts: posts).present
+    presented = PostsPresenter.new(posts: posts).present
     render json: presented, status: :ok
   end
 
@@ -14,14 +14,14 @@ class PostsController < ApplicationController
     post = CreatePostService.new(**build_create_params).run
     return present_errors(post.errors) if post.errors.any?
 
-    presented = ::PostPresenter.new(post: post).present
+    presented = PostPresenter.new(post: post).present
     render json: presented, status: :created
   end
 
   def show
     return present_not_found_resource(Post) unless @post
 
-    presented = ::PostPresenter.new(post: @post).present
+    presented = PostPresenter.new(post: @post).present
     render json: presented, status: :ok
   end
 
@@ -31,7 +31,7 @@ class PostsController < ApplicationController
     @post = UpdatePostService.new(post: @post, params: build_update_params).run
     return present_errors(@post.errors) if @post.errors.any?
 
-    presented = ::PostPresenter.new(post: @post).present
+    presented = PostPresenter.new(post: @post).present
     render json: presented, status: :ok
   end
 

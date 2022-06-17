@@ -5,5 +5,6 @@ export default {
     hasErrors: false,
     errors: []
   },
-  postUpdating: false
+  postUpdating: false,
+  clearPostForm: false
 }

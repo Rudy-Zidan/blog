@@ -91,7 +91,8 @@ export default {
       'postFormHasErrors',
       'getCurrentUser',
       'getPostFormErrorByField',
-      'isPostUpdating'
+      'isPostUpdating',
+      'clearPostForm'
     ])
   },
   watch: {
@@ -121,6 +122,13 @@ export default {
       this.postForm.title = value.title
       this.postForm.description = value.description
       this.postForm.content = value.content
+    },
+    clearPostForm(value) {
+      if(value && this.postId === null) {
+        this.postForm.title = null
+        this.postForm.description = null
+        this.postForm.content = null
+      }
     }
   },
   data: () => ({

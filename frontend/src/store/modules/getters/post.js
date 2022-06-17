@@ -19,4 +19,5 @@ export default {
     return errorMessage
   },
   isPostUpdating: state => state.postUpdating,
+  clearPostForm: state => state.clearPostForm
 }

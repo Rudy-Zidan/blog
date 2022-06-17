@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <CommentForm :user="getCurrentUser" :postId="postId"/>
+    <CommentForm :user="getCurrentUser" :postId="postId" v-if="getCurrentUser"/>
     <p v-if="comments.length === 0">No Comments yet...</p>
   <div
     v-for="(comment, index) in comments"

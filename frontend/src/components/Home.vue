@@ -39,12 +39,10 @@ export default {
       received(data) { this.$store.dispatch('replacePost', data.post) },
       disconnected() {},
     },
-     DeletePostChannel: {
+    DeletePostChannel: {
       connected() {},
       rejected() {},
-      received(data) {
-        this.$store.dispatch('removePost', data.post) 
-      },
+      received(data) { this.$store.dispatch('removePost', data.post) },
       disconnected() {},
     }
   },
@@ -54,15 +52,15 @@ export default {
   mounted() {
     this.$cable.subscribe({
       channel: "PostChannel",
-    });
+    })
 
     this.$cable.subscribe({
       channel: "PostUpdateChannel"
-    });
+    })
 
     this.$cable.subscribe({
       channel: "DeletePostChannel"
-    });
+    })
   },
   data: () => ({}),
 }

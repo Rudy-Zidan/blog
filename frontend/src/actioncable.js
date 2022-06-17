@@ -1,7 +1,7 @@
 const actioncableConfig = {
   debug: true,
   debugLevel: "error",
-  connectionUrl: "ws://localhost:3000/cable",
+  connectionUrl: process.env.VUE_APP_BASE_CABLE_URL,
   connectImmediately: true,
 }
 export default actioncableConfig

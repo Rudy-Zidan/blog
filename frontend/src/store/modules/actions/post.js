@@ -20,8 +20,12 @@ export default {
       })
   },
   createPost: ({commit}, post) => {
+    commit('resetPostForm')
     commit('setPostFormHasNoErrors')
     PostService.create(post)
+      .then( () => {
+        commit('clearPostForm')
+      })
       .catch(err => {
         if(err.response.status === 400) {
           commit('setPostFormHasErrors')
