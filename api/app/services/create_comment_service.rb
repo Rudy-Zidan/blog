@@ -13,6 +13,11 @@ class CreateCommentService < ApplicationService
     )
 
     comment.save
+    if comment.errors.empty?
+      presented = CommentPresenter.new(comment: comment).present
+      broadcast("comment", { comment: presented })
+    end
+
     comment
   end
 end

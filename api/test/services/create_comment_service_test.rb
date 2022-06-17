@@ -1,12 +1,15 @@
 require "test_helper"
 
 class CreateCommentServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   test "run" do
     comment = CreateCommentService.new(**create_comment_params).run
 
     assert_equal(Comment.name, comment.class.name)
     assert_equal(true, comment.errors.empty?)
     assert_equal("This is a test content", comment.content)
+    assert_broadcasts('comment', 1)
   end
 
   test "run with blank params" do
@@ -18,6 +21,7 @@ class CreateCommentServiceTest < ActiveSupport::TestCase
     assert_equal("must exist", comment.errors[:user].first)
     assert_equal("must exist", comment.errors[:post].first)
     assert_equal("can't be blank", comment.errors[:content].first)
+    assert_broadcasts('comment', 0)
   end
 
   private

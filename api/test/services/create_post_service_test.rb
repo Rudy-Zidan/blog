@@ -1,5 +1,4 @@
 require "test_helper"
-# require "ActionCable::TestHelper"
 
 class CreatePostServiceTest < ActiveSupport::TestCase
   include ActionCable::TestHelper
