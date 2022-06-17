@@ -13,6 +13,11 @@ class DeleteCommentReactionService < ApplicationService
     end
   
     @comment_reaction.destroy
+    if @comment_reaction.errors.empty?
+      presented = CommentReactionPresenter.new(comment_reaction: @comment_reaction).present
+      broadcast("delete_reaction", { reaction: presented })
+    end
+
     @comment_reaction
   end
 end

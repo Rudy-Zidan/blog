@@ -1,6 +1,8 @@
 require "test_helper"
 
 class DeleteCommentReactionServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   def setup
     @user = users(:one)
     @comment_reaction = comment_reactions(:one)
@@ -11,6 +13,7 @@ class DeleteCommentReactionServiceTest < ActiveSupport::TestCase
 
     assert_equal(CommentReactions::LikeReaction.name, comment_reaction.class.name)
     assert_equal(false, comment_reaction.persisted?)
+    assert_broadcasts("delete_reaction", 1)
   end
 
   test "run with different author" do
@@ -22,6 +25,7 @@ class DeleteCommentReactionServiceTest < ActiveSupport::TestCase
     assert_equal(true, comment_reaction.errors.any?)
 
     assert_equal("not authorized for this action", comment_reaction.errors[:user].first)
+    assert_broadcasts("delete_reaction", 0)
   end
 
   private
