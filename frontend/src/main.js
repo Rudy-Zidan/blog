@@ -7,6 +7,7 @@ import VueAxios from 'vue-axios'
 import router from './router'
 import store from "@/store"
 
+
 loadFonts()
 
 createApp(App)

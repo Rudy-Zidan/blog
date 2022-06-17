@@ -4,6 +4,8 @@
       <v-card width="600">
         <v-card-title>
           {{post.title}}
+          <v-spacer></v-spacer>
+          <p class="font-weight-thin text-caption">{{this.moment.utc(post.created_at).fromNow()}}</p>
         </v-card-title>
         <v-card-subtitle>
           <p>Written by</p>
@@ -43,6 +45,7 @@
 
 <script>
 import { mapGetters } from "vuex"
+import moment from 'moment'
 
 export default {
   computed: {
@@ -54,8 +57,10 @@ export default {
   props: {
     post: Object,
   },
-  data: () => ({
-  }),
+  created() {
+    this.moment = moment
+  },
+  data: () => ({}),
   methods: {
     showPost(postId) {
       this.$router.push(`/posts/${postId}`)

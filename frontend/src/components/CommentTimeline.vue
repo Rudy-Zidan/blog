@@ -24,7 +24,7 @@
         @{{comment.user.name}}
         </h5>
         <v-spacer></v-spacer>
-        <p class="font-weight-thin">{{ comment.id }}</p>
+        <p class="font-weight-thin text-caption">{{this.moment.utc(comment.created_at).fromNow()}}</p>
       </v-card-title>
       <v-card-text class="font-weight-thin" v-if="!editableComments[index]">
         {{comment.content}}
@@ -119,6 +119,7 @@
 
 <script>
 import CommentForm from "@/components/CommentForm"
+import moment from 'moment'
 import { mapGetters } from "vuex"
 
 export default {
@@ -147,6 +148,7 @@ export default {
     editableComments: [],
   }),
   created() {
+    this.moment = moment
     this.postId = this.$route.params.id
     this.loadComments()
   },

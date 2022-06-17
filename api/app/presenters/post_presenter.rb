@@ -11,7 +11,7 @@ class PostPresenter < ApplicationPresenter
       description: @post.description,
       content: @post.content,
       published: @post.published?,
-      updated_at: @post.updated_at
+      created_at: @post.created_at
     }
   end
 end
