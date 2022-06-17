@@ -1,7 +1,6 @@
 class CommentReactionPresenter < ApplicationPresenter
   def initialize(comment_reaction:)
     @comment_reaction = comment_reaction
-    @reaction = reaction
   end
 
   def present

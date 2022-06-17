@@ -16,6 +16,11 @@ class CreateCommentReactionService < ApplicationService
   
     comment_reaction = comment_reaction_klass.new(comment_id: @comment_id, user_id: @user_id)
     comment_reaction.save
+    if comment_reaction.errors.empty?
+      presented = CommentReactionPresenter.new(comment_reaction: comment_reaction).present
+      broadcast("reaction", { reaction: presented })
+    end
+
     comment_reaction
   end
 end

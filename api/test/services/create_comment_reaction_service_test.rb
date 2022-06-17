@@ -1,12 +1,15 @@
 require "test_helper"
 
 class CreateCommentReactionServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   test "run" do
     comment_reaction = CreateCommentReactionService.new(**create_comment_params).run
 
     assert_equal(CommentReactions::LikeReaction.name, comment_reaction.class.name)
     assert_equal(true, comment_reaction.errors.empty?)
     assert_equal("CommentReactions::LikeReaction", comment_reaction.type)
+    assert_broadcasts('reaction', 1)
   end
 
   test "run with duplicate reaction" do
@@ -19,6 +22,7 @@ class CreateCommentReactionServiceTest < ActiveSupport::TestCase
     assert_equal(true, comment_reaction.errors.any?)
 
     assert_equal("you already reacted in the same way before", comment_reaction.errors[:type].first)
+    assert_broadcasts('reaction', 0)
   end
 
   test "run with invalid reaction" do
@@ -28,6 +32,7 @@ class CreateCommentReactionServiceTest < ActiveSupport::TestCase
     assert_equal(true, comment_reaction.errors.any?)
 
     assert_equal("invalid reaction, should be (like or smile or thumbs_up)", comment_reaction.errors[:reaction].first)
+    assert_broadcasts('reaction', 0)
   end
 
   private
