@@ -9,5 +9,8 @@ export default {
   injectToCommentReactions(state, reaction) {
     let index = state.comments.findIndex(comment => comment.id == reaction.comment_id)
     state.comments[index].reactions.push(reaction)
+  },
+  injectCommentAtTop(state, newComment) {
+    state.comments.unshift(newComment)
   }
 }

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class CommentChannelTest < ActionCable::Channel::TestCase
+class PostCommentsChannelTest < ActionCable::Channel::TestCase
   test "subscribes" do
     subscribe
     assert subscription.confirmed?

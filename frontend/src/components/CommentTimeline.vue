@@ -1,15 +1,5 @@
 <template>
   <v-container>
-    <!-- <v-text-field
-      v-model="content"
-      hide-details
-      label="Leave a comment and press enter to post it..."
-      density="compact"
-      @keydown.enter="postComment"
-      class="font-weight-light"
-      v-if="getCurrentUser !== null"
-    >
-    </v-text-field> -->
     <CommentForm :user="getCurrentUser" :postId="postId"/>
     <p v-if="comments.length === 0">No Comments yet...</p>
   <div
@@ -142,6 +132,14 @@ export default {
       })
     }
   },
+  channels: {
+    PostCommentsChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('injectCommentAtTop', data.comment) },
+      disconnected() {},
+    },
+  },
   data: () => ({
     postId: null,
     comments: [],
@@ -151,6 +149,11 @@ export default {
     this.moment = moment
     this.postId = this.$route.params.id
     this.loadComments()
+
+    this.$cable.subscribe({
+      channel: "PostCommentsChannel",
+      post_id: this.postId
+    });
   },
   methods: {
     loadComments() {

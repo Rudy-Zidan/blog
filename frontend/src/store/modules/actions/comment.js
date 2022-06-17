@@ -32,5 +32,8 @@ export default {
           dispatch('getPostCommentsById', reaction.post_id)
         }
       })
+  },
+  injectCommentAtTop({commit}, comment) {
+    commit('injectCommentAtTop', comment)
   }
 }
