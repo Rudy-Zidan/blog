@@ -23,4 +23,7 @@ export default {
   stopPostUpdating(state) {
     state.postUpdating = false
   },
+  injectPostAtTop(state, post) {
+    state.posts.unshift(post)
+  }
 }

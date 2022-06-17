@@ -26,8 +26,21 @@ export default {
     PostCard,
     PostForm
   },
+  channels: {
+    PostChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('injectPostAtTop', data.post) },
+      disconnected() {},
+    },
+  },
   created() {
     this.$store.dispatch('listPosts')
+  },
+  mounted() {
+    this.$cable.subscribe({
+      channel: "PostChannel",
+    });
   },
   data: () => ({}),
 }

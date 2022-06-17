@@ -49,5 +49,8 @@ export default {
           commit('stopPostUpdating')
         }
       })
+  },
+  injectPostAtTop: ({commit}, post) => {
+    commit('injectPostAtTop', post)
   }
 }

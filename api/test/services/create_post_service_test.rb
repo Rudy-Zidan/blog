@@ -1,16 +1,19 @@
 require "test_helper"
+# require "ActionCable::TestHelper"
 
 class CreatePostServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   def setup
     @author = Author.new(users(:one).attributes)
   end
 
   test "run" do
     post = CreatePostService.new(**create_post_params).run
-
     assert_equal(Post.name, post.class.name)
     assert_equal(true, post.errors.empty?)
     assert_equal("Test", post.title)
+    assert_broadcasts('post', 1)
   end
 
   test "run with blank params" do
@@ -22,6 +25,8 @@ class CreatePostServiceTest < ActiveSupport::TestCase
     assert_equal("can't be blank", post.errors[:title].first)
     assert_equal("can't be blank", post.errors[:content].first)
     assert_equal("can't be blank", post.errors[:description].first)
+
+    assert_broadcasts('post', 0)
   end
 
   private
