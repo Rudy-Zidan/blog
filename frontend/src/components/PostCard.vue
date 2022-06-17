@@ -8,7 +8,16 @@
         <v-card-subtitle>
           <p>Written by</p>
           &nbsp;
-          <p class="text-amber font-weight-bold">{{post.author.name}}</p>
+          <!-- <v-btn
+            variant="text"
+            color="amber"
+            @click="showAuthorPosts(post.author.id)"
+          >
+            {{post.author.name}}
+          </v-btn> -->
+          <p >
+            <router-link :to="authorPostsUrl(post.author.id)"> {{authorName(post.author)}} </router-link>
+          </p>
         </v-card-subtitle>
         <v-card-text>
           <div class="ml-1 mb-2">
@@ -53,6 +62,19 @@ export default {
     },
     editPost(postId) {
       this.$router.push(`/edit_post/${postId}`)
+    },
+    showAuthorPosts(id) {
+      this.$router.push(`/users/${id}/posts`)
+    },
+    authorPostsUrl(id) {
+      return `/users/${id}/posts`
+    },
+    authorName(author){
+      if(this.getCurrentUser && this.getCurrentUser.id === author.id){
+        return "Me"
+      }
+
+      return author.name
     }
   }
 }

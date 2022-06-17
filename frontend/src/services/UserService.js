@@ -6,5 +6,8 @@ export default {
   },
   create: (userPayload) => {
     return Api().post("/users", userPayload)
-  }
+  },
+  postsByUserId: (userId) => {
+    return Api().get(`/users/${userId}/posts`)
+  },
 }

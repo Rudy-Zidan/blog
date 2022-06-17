@@ -7,6 +7,13 @@
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
+        @click="visitMyPosts"
+        v-if="getCurrentUser"
+      >
+        My Posts
+      </v-btn>
+      <v-btn
+        color="primary"
         @click="visitAccount"
       >
         {{actionName()}}
@@ -43,6 +50,9 @@ export default {
       }
 
       return 'Pick / Create User'
+    },
+    visitMyPosts() {
+      this.$router.push(`/users/${this.getCurrentUser.id}/posts`)
     }
   }
 }

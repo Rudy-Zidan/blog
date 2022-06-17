@@ -26,5 +26,11 @@ export default {
   },
   selectUser: ({commit}, selectedUserEmail) => {
     commit("setCurrentUserByEmail", selectedUserEmail)
-  }
+  },
+  getPostsByUserId: ({commit}, userId) => {
+    UserService.postsByUserId(userId)
+      .then(res => {
+        commit("setPosts", res.data)
+      })
+  },
 }
