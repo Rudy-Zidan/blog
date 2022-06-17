@@ -11,6 +11,11 @@ class DeletePostService < ApplicationService
     end
 
     @post.destroy
+    if @post.errors.empty?
+      presented = PostPresenter.new(post: @post).present
+      broadcast("delete_post", { post: presented })
+    end
+
     @post
   end
 end

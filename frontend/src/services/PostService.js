@@ -15,5 +15,8 @@ export default {
   },
   update: (id, payload) => {
     return Api().put(`/posts/${id}`, payload)
+  },
+  delete: (id, author_id) => {
+    return Api().delete(`/posts/${id}?author_id=${author_id}`)
   }
 }

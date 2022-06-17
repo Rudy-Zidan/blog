@@ -32,5 +32,9 @@ export default {
   },
   replaceCurrentPost(state, updatedPost) {
     state.currentPost = updatedPost
+  },
+  removePostFromPosts(state, deletedPost) {
+    let index = state.posts.findIndex(post => post.id == deletedPost.id)
+    state.posts.splice(index, 1)
   }
 }

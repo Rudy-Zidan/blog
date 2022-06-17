@@ -22,11 +22,7 @@ export default {
   createPost: ({commit}, post) => {
     commit('setPostFormHasNoErrors')
     PostService.create(post)
-      .then(res => {
-        if(res.status === 201) {
-          commit("appendPost", res.data)
-        }
-      }).catch(err => {
+      .catch(err => {
         if(err.response.status === 400) {
           commit('setPostFormHasErrors')
           commit('setPostFormErrors', err.response.data.errors)
@@ -58,5 +54,11 @@ export default {
   },
   replaceCurrentPost: ({commit}, post) => {
     commit('replaceCurrentPost', post)
+  },
+  deletePost: (_, payload) => {
+    PostService.delete(payload.post_id, payload.author_id)
+  },
+  removePost: ({commit}, post) => {
+    commit("removePostFromPosts", post)
   }
 }

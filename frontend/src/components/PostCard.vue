@@ -27,6 +27,14 @@
           </div>
         </v-card-text>
         <v-card-actions>
+          <v-btn
+            variant="outlined"
+            color="red"
+            @click="removePost(post.id)"
+            v-if="getCurrentUser !== null && getCurrentUser.id === post.author.id"
+          >
+            Remove
+          </v-btn>
           <v-spacer></v-spacer>
           <v-btn
             variant="outlined"
@@ -80,6 +88,12 @@ export default {
       }
 
       return author.name
+    },
+    removePost(postId) {
+      this.$store.dispatch('deletePost', {
+        post_id: postId,
+        author_id: this.getCurrentUser.id
+      })
     }
   }
 }

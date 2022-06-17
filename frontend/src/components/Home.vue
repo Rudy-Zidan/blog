@@ -38,6 +38,14 @@ export default {
       rejected() {},
       received(data) { this.$store.dispatch('replacePost', data.post) },
       disconnected() {},
+    },
+     DeletePostChannel: {
+      connected() {},
+      rejected() {},
+      received(data) {
+        this.$store.dispatch('removePost', data.post) 
+      },
+      disconnected() {},
     }
   },
   created() {
@@ -50,6 +58,10 @@ export default {
 
     this.$cable.subscribe({
       channel: "PostUpdateChannel"
+    });
+
+    this.$cable.subscribe({
+      channel: "DeletePostChannel"
     });
   },
   data: () => ({}),
