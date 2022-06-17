@@ -22,10 +22,8 @@ export default {
       default: null
     }
   },
-  watch: {
-    content(value) {
-      this.commentContent = value
-    },
+  created() {
+    this.commentContent = this.content
   },
   data: () => ({
     commentContent: null,

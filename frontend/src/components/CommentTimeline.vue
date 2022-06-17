@@ -42,11 +42,19 @@
       <v-card-actions>
         <v-btn 
           variant="text" 
-          color="secondary" 
+          color="amber" 
           @click="editMode(index)" 
-          v-if="getCurrentUser && getCurrentUser.id === comment.user.id"
+          v-if="getCurrentUser && getCurrentUser.id === comment.user.id && !editableComments[index]"
         >
           Edit
+        </v-btn>
+        <v-btn 
+          variant="text" 
+          color="red" 
+          @click="undo(index)" 
+          v-if="getCurrentUser && getCurrentUser.id === comment.user.id && editableComments[index]"
+        >
+          Undo
         </v-btn>
         <v-spacer></v-spacer>
         <v-btn
@@ -98,7 +106,7 @@ export default {
   data: () => ({
     postId: null,
     comments: [],
-    editableComments: []
+    editableComments: [],
   }),
   created() {
     this.postId = this.$route.params.id
@@ -113,7 +121,10 @@ export default {
     },
     disableEditMode(index) {
       this.editableComments[index] = false
-    }
+    },
+    undo(index) {
+      this.editableComments[index] = false
+    },
   }
 }
 </script>
