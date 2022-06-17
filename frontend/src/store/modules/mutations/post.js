@@ -25,5 +25,9 @@ export default {
   },
   injectPostAtTop(state, post) {
     state.posts.unshift(post)
+  },
+  replacePost(state, updatedPost) {
+    let index = state.posts.findIndex(post => post.id == updatedPost.id)
+    state.posts[index] = updatedPost
   }
 }

@@ -33,6 +33,12 @@ export default {
       received(data) { this.$store.dispatch('injectPostAtTop', data.post) },
       disconnected() {},
     },
+    PostUpdateChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('replacePost', data.post) },
+      disconnected() {},
+    }
   },
   created() {
     this.$store.dispatch('listPosts')
@@ -40,6 +46,10 @@ export default {
   mounted() {
     this.$cable.subscribe({
       channel: "PostChannel",
+    });
+
+    this.$cable.subscribe({
+      channel: "PostUpdateChannel"
     });
   },
   data: () => ({}),

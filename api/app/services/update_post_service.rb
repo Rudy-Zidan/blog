@@ -13,7 +13,7 @@ class UpdatePostService < ApplicationService
     @post.update(@params)
     if @post.errors.empty?
       presented = PostPresenter.new(post: @post).present
-      broadcast("post_#{@post.id}", { post: presented })
+      broadcast("post_update", { post: presented })
     end
 
     @post

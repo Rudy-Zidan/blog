@@ -52,5 +52,8 @@ export default {
   },
   injectPostAtTop: ({commit}, post) => {
     commit('injectPostAtTop', post)
+  },
+  replacePost: ({commit}, post) => {
+    commit('replacePost', post)
   }
 }

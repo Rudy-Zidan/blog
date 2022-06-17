@@ -25,8 +25,21 @@ export default {
   components: {
     PostCard
   },
+  channels: {
+    PostUpdateChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('replacePost', data.post) },
+      disconnected() {},
+    }
+  },
   created() {
     this.$store.dispatch('getPostsByUserId', this.$route.params.id)
   },
+  mounted() {
+    this.$cable.subscribe({
+      channel: "PostUpdateChannel"
+    });
+  }
 }
 </script>
