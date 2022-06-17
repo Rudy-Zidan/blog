@@ -16,6 +16,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
     assert_equal("Test", post.title)
     assert_equal(true, post.published)
     assert_broadcasts("post_update", 1)
+    assert_broadcasts("post_details_#{post.id}", 1)
   end
 
   test "run with blank params" do
@@ -28,6 +29,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
     assert_equal("can't be blank", post.errors[:content].first)
     assert_equal("can't be blank", post.errors[:description].first)
     assert_broadcasts("post_update", 0)
+    assert_broadcasts("post_details_#{post.id}", 0)
   end
 
   test "run with different author" do
@@ -40,6 +42,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
 
     assert_equal("not authorized for this action", post.errors[:author].first)
     assert_broadcasts("post_update", 0)
+    assert_broadcasts("post_details_#{post.id}", 0)
   end
 
   private
