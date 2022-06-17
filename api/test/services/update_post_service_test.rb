@@ -1,6 +1,8 @@
 require "test_helper"
 
 class UpdatePostServiceTest < ActiveSupport::TestCase
+  include ActionCable::TestHelper
+
   def setup
     @author = Author.new(users(:one).attributes)
     @post = posts(:one)
@@ -13,6 +15,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
     assert_equal(true, post.errors.empty?)
     assert_equal("Test", post.title)
     assert_equal(true, post.published)
+    assert_broadcasts("post_#{post.id}", 1)
   end
 
   test "run with blank params" do
@@ -24,6 +27,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
     assert_equal("can't be blank", post.errors[:title].first)
     assert_equal("can't be blank", post.errors[:content].first)
     assert_equal("can't be blank", post.errors[:description].first)
+    assert_broadcasts("post_#{post.id}", 0)
   end
 
   test "run with different author" do
@@ -35,6 +39,7 @@ class UpdatePostServiceTest < ActiveSupport::TestCase
     assert_equal(true, post.errors.any?)
 
     assert_equal("not authorized for this action", post.errors[:author].first)
+    assert_broadcasts("post_#{post.id}", 0)
   end
 
   private

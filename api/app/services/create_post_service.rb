@@ -17,7 +17,7 @@ class CreatePostService < ApplicationService
     post.save
     if post.errors.empty?
       presented = PostPresenter.new(post: post).present
-      broadcast("post", { post:  presented })
+      broadcast("post", { post: presented })
     end
 
     post
