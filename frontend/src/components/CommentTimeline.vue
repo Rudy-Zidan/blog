@@ -145,6 +145,12 @@ export default {
       received(data) { this.$store.dispatch('replaceComment', data.comment) },
       disconnected() {},
     },
+    ReactionChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('react', data.reaction) },
+      disconnected() {},
+    },
   },
   data: () => ({
     postId: null,
@@ -164,6 +170,10 @@ export default {
     this.$cable.subscribe({
       channel: "PostCommentUpdateChannel",
       post_id: this.postId
+    });
+
+    this.$cable.subscribe({
+      channel: "ReactionChannel"
     });
   },
   methods: {

@@ -39,4 +39,7 @@ export default {
   replaceComment({commit}, comment) {
     commit('replaceComment', comment)
   },
+  react({commit}, reaction) {
+    commit('injectToCommentReactions', reaction)
+  }
 }
