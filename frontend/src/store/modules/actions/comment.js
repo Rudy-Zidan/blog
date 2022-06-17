@@ -17,4 +17,20 @@ export default {
         }
       })
   },
+  createReaction: ({dispatch}, reaction) => {
+    CommentService.createReaction(reaction.id, reaction.payload)
+      .then(res => {
+        if(res.status === 201) {
+          dispatch('getPostCommentsById', reaction.post_id)
+        }
+      })
+  },
+  deleteReaction: ({dispatch}, reaction) => {
+    CommentService.deleteReaction(reaction.id, reaction.comment_id, reaction.user_id)
+      .then(res => {
+        if(res.status === 200) {
+          dispatch('getPostCommentsById', reaction.post_id)
+        }
+      })
+  }
 }

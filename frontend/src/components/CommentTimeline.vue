@@ -57,24 +57,60 @@
           Undo
         </v-btn>
         <v-spacer></v-spacer>
-        <v-btn
-          variant="outlined"
-          color="blue"
-        >
-        +1 ({{comment.reaction_summary.likes}})
-        </v-btn>
-        <v-btn
-          variant="outlined"
-          color="amber"
-        >
-        🙂 ({{comment.reaction_summary.smiles}})
-        </v-btn>
-        <v-btn
-          variant="outlined"
-          color="yellow"
-        >
-        👍 ({{comment.reaction_summary.thumbs_up}})
-        </v-btn>
+        <div v-if="getCurrentUser">
+
+          <v-btn
+            variant="outlined"
+            color="blue"
+            @click="like(comment)"
+            v-if="getCurrentUser && !reacted(getCurrentUser.id, comment.id, 'like')"
+          >
+          +1 ({{comment.reaction_summary.likes}})
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            color="green"
+            @click="removeLike(comment, getReactionID(getCurrentUser.id, comment.id, 'like'))"
+            v-else
+          >
+          +1 ({{comment.reaction_summary.likes}})
+          </v-btn>
+
+          <v-btn
+            variant="outlined"
+            color="amber"
+            @click="smile(comment)"
+            v-if="getCurrentUser && !reacted(getCurrentUser.id, comment.id, 'smile')"
+          >
+          🙂 ({{comment.reaction_summary.smiles}})
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            color="green"
+            @click="removeSmile(comment, getReactionID(getCurrentUser.id, comment.id, 'smile'))"
+            v-else
+          >
+          🙂 ({{comment.reaction_summary.smiles}})
+          </v-btn>
+
+          <v-btn
+            variant="outlined"
+            color="yellow"
+            @click="thumbsUp(comment)"
+            v-if="getCurrentUser && !reacted(getCurrentUser.id, comment.id, 'thumbsup')"
+          >
+          👍 ({{comment.reaction_summary.thumbs_up}})
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            color="green"
+            @click="removeThumbsUp(comment, getReactionID(getCurrentUser.id, comment.id, 'thumbsup'))"
+            v-else
+          >
+          👍 ({{comment.reaction_summary.thumbs_up}})
+          </v-btn>
+        </div>
+        
       </v-card-actions>
     </v-card>
   </div>
@@ -89,7 +125,9 @@ export default {
   computed: {
     ...mapGetters([
       'getCurrentUser',
-      'getComments'
+      'getComments',
+      'reacted',
+      'getReactionID'
     ]),
   },
   components: {
@@ -125,6 +163,48 @@ export default {
     undo(index) {
       this.editableComments[index] = false
     },
+    like(comment) {
+      this.createReaction(this.reactionPayload('like', comment))
+    },
+    smile(comment) {
+      this.createReaction(this.reactionPayload('smile', comment))
+    },
+    thumbsUp(comment) {
+      this.createReaction(this.reactionPayload('thumbs_up', comment))
+    },
+    removeLike(comment, id) {
+      this.deleteReaction(this.deletableReactionPayload(id, comment))
+    },
+    removeSmile(comment, id) {
+      this.deleteReaction(this.deletableReactionPayload(id, comment))
+    },
+    removeThumbsUp(comment, id) {
+      this.deleteReaction(this.deletableReactionPayload(id, comment))
+    },
+    createReaction(payload) {
+      this.$store.dispatch('createReaction', payload)
+    },
+    deleteReaction(payload) {
+      this.$store.dispatch('deleteReaction', payload)
+    },
+    reactionPayload(reaction, comment) {
+      return {
+        id: comment.id,
+        post_id: this.postId,
+        payload: {
+          user_id: this.getCurrentUser.id,
+          reaction: reaction
+        }
+      }
+    },
+    deletableReactionPayload(id, comment) {
+      return {
+        id: id,
+        comment_id: comment.id,
+        user_id: this.getCurrentUser.id,
+        post_id: this.postId,
+      }
+    }
   }
 }
 </script>
