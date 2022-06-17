@@ -41,5 +41,8 @@ export default {
   },
   react({commit}, reaction) {
     commit('injectToCommentReactions', reaction)
+  },
+  removeReaction({commit}, reaction) {
+    commit('removeCommentReaction', reaction)
   }
 }

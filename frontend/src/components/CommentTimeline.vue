@@ -151,6 +151,12 @@ export default {
       received(data) { this.$store.dispatch('react', data.reaction) },
       disconnected() {},
     },
+    DeleteReactionChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('removeReaction', data.reaction) },
+      disconnected() {},
+    },
   },
   data: () => ({
     postId: null,
@@ -174,6 +180,10 @@ export default {
 
     this.$cable.subscribe({
       channel: "ReactionChannel"
+    });
+
+    this.$cable.subscribe({
+      channel: "DeleteReactionChannel"
     });
   },
   methods: {
