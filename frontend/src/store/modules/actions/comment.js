@@ -35,5 +35,8 @@ export default {
   },
   injectCommentAtTop({commit}, comment) {
     commit('injectCommentAtTop', comment)
-  }
+  },
+  replaceComment({commit}, comment) {
+    commit('replaceComment', comment)
+  },
 }

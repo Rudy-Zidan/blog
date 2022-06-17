@@ -139,6 +139,12 @@ export default {
       received(data) { this.$store.dispatch('injectCommentAtTop', data.comment) },
       disconnected() {},
     },
+    PostCommentUpdateChannel: {
+      connected() {},
+      rejected() {},
+      received(data) { this.$store.dispatch('replaceComment', data.comment) },
+      disconnected() {},
+    },
   },
   data: () => ({
     postId: null,
@@ -152,6 +158,11 @@ export default {
 
     this.$cable.subscribe({
       channel: "PostCommentsChannel",
+      post_id: this.postId
+    });
+
+    this.$cable.subscribe({
+      channel: "PostCommentUpdateChannel",
       post_id: this.postId
     });
   },

@@ -12,5 +12,9 @@ export default {
   },
   injectCommentAtTop(state, newComment) {
     state.comments.unshift(newComment)
-  }
+  },
+  replaceComment(state, updatedComment) {
+    let index = state.comments.findIndex(comment => comment.id == updatedComment.id)
+    state.comments[index] = updatedComment
+  },
 }
