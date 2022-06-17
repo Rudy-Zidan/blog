@@ -6,6 +6,6 @@ class GetCommentsByPostService < ApplicationService
   def run
     return Comment.none unless @post
 
-    @post.comments.includes(:user, :comment_reactions)
+    @post.comments.includes(:user, :comment_reactions).order(id: :desc)
   end
 end

@@ -163,8 +163,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal(Array, res.class)
     assert_equal(2, res.size)
-    assert_equal("This is a test", res[1]["content"])
-    assert_equal(10, res[1]["reaction_summary"]["likes"])
+    assert_equal("This is a test", res[0]["content"])
+    assert_equal(10, res[0]["reaction_summary"]["likes"])
   end
 
   test "get comments by not found id" do

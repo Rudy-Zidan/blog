@@ -10,7 +10,8 @@ class PostPresenter < ApplicationPresenter
       title: @post.title,
       description: @post.description,
       content: @post.content,
-      published: @post.published?
+      published: @post.published?,
+      updated_at: @post.updated_at
     }
   end
 end

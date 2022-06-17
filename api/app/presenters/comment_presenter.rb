@@ -18,7 +18,8 @@ class CommentPresenter < ApplicationPresenter
       },
       reactions: @comment.comment_reactions.map do |comment_reaction|
         CommentReactionPresenter.new(comment_reaction: comment_reaction).present
-      end
+      end,
+      updated_at: @comment.updated_at
     }
   end
 end
